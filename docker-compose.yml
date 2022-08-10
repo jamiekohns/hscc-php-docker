@@ -5,10 +5,12 @@ services:
     container_name: nginx-${USERNAME}
     image: nginx:latest
     ports:
-      - "39150:80"
+      - "${NGINX_PORT}:80"
     volumes:
       - devcode:/code
       - ./site.conf:/etc/nginx/conf.d/default.conf
+    env_file:
+      - ./${USERNAME}.env
     networks:
       - code-network
   php:
@@ -16,6 +18,8 @@ services:
     image: php:fpm
     volumes:
       - devcode:/code
+    env_file:
+      - ./${USERNAME}.env
     networks:
       - code-network
   code-server:
@@ -23,10 +27,12 @@ services:
     image: lscr.io/linuxserver/code-server:latest
     volumes:
       - devcode:/config/code
+    env_file:
+      - ./${USERNAME}.env
     networks:
       - code-network
     ports:
-      - "39151:8443"
+      - "${CODE_PORT}:8443"
     restart: unless-stopped
     environment:
       - PASSWORD=${PASSWORD}
