@@ -9,8 +9,6 @@ services:
     volumes:
       - devcode:/code
       - ./site.conf:/etc/nginx/conf.d/default.conf
-    env_file:
-      - ./${USERNAME}.env
     networks:
       - code-network
   php:
@@ -18,8 +16,6 @@ services:
     image: php:fpm
     volumes:
       - devcode:/code
-    env_file:
-      - ./${USERNAME}.env
     networks:
       - code-network
   code-server:
@@ -27,8 +23,6 @@ services:
     image: lscr.io/linuxserver/code-server:latest
     volumes:
       - devcode:/config/code
-    env_file:
-      - ./${USERNAME}.env
     networks:
       - code-network
     ports:
